@@ -5,11 +5,11 @@
 
 @section('content')
 
-    <div class="row mb-5">
-        <div class="col"><small class="text-muted">Balance: </small> <b>{{$userBalance}} {{$baseCurrencyCode}}</b></div>
+    <div class="row mb-3">
+        <div class="col"><small class="text-muted">Balance: </small> <b>{{round($userBalance, 2)}} {{$baseCurrencyCode}}</b></div>
     </div>
 
-    <div class="col-12">
+    <div class="col-12 mb-3">
         <a href="{{route('transactions.create')}}" class="btn btn-primary">New transaction</a>
     </div>
     <div class="row">
@@ -46,12 +46,11 @@
                             <form action="{{route('transactions.destroy',[$transaction->id])}}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit">Delete</button>
+                                <button class="btn btn-primary" type="submit">Delete</button>
                             </form>
                         </td>
                     </tr>
                 @endforeach
-
 
                 </tbody>
             </table>

@@ -87,13 +87,13 @@
                                 <td>{{$wallet->name}}</td>
                                 <td>{{$wallet->currency->name}}</td>
                                 <td>{{$wallet->balance}}</td>
-                                <td>
-                                    <a href="{{route('wallets.edit', [$wallet->id])}}">Rename </a>
+                                <td class="d-flex">
+                                    <a class="btn btn-primary mr-2" href="{{route('wallets.edit', [$wallet->id])}}">Rename </a>
 
                                     <form action="{{route('wallets.destroy', [$wallet->id])}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit">Delete</button>
+                                        <button class="btn btn-danger" type="submit">Delete</button>
                                     </form>
 
                                 </td>
@@ -105,34 +105,32 @@
 
 
                     <div>
-                        <a href="{{route('wallets.create')}}">Create new wallet</a>
+                        <a class="btn btn-primary" href="{{route('wallets.create')}}">Create new wallet</a>
                     </div>
                 </div>
 
 
                 <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
                     <div class="card card-primary">
-                        <form>
-
+                        <form action="{{route('change.password')}}" method="post">
                             @csrf
                             <div class="card-body">
 
                                 <div class="form-group">
-                                    <label for="old_password">Old password:</label>
-                                    <input type="text" class="form-control" id="old_password">
+                                    <label for="password">Old password:</label>
+                                    <input type="text" class="form-control" id="password" name="password">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password">New password:</label>
-                                    <input type="text" class="form-control" id="password">
+                                    <label for="new_password">New password:</label>
+                                    <input type="text" class="form-control" id="new_password" name="new_password">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password_confirm">New password confirm:</label>
-                                    <input type="text" class="form-control" id="password_confirm">
+                                    <label for="new_password_confirmation">New password confirm:</label>
+                                    <input type="text" class="form-control" id="new_password_confirmation"
+                                           name="new_password_confirmation">
                                 </div>
-
-
                             </div>
                             <!-- /.card-body -->
 

@@ -25,7 +25,7 @@ class UpdateBaseRequest extends FormRequest
     {
         return [
             'name'=>'required',
-            'currency_id'=>'required'
+            'currency_id'=>'required|numeric'
         ];
     }
 }

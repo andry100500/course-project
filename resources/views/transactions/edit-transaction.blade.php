@@ -11,16 +11,9 @@
                 @csrf
                 @method('PUT')
                 <div class="card-body">
-
-                    @php
-                        // TODO если будет время, разобраться, почему не выводится текущее значение сохранненной даты и времени
-                    @endphp
-
-
                     <div class="form-group">
                         <label>Date and time:</label>
-                        <input type="datetime-local" name="transaction_datetime"
-                               value="{{$transaction->transaction_datetime}}">
+                        <input type="datetime-local" name="transaction_datetime" value="{{$transaction->transaction_datetime}}">
                     </div>
 
                     <div class="form-group">

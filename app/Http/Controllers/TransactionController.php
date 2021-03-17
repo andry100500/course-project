@@ -100,6 +100,7 @@ class TransactionController extends Controller
     {
         $wallets = Wallets::all();
         $types = self::TYPES;
+        $transaction->transaction_datetime = date("Y-m-d\TH:i:s", strtotime($transaction->transaction_datetime));
         return view('transactions.edit-transaction', compact('transaction', 'wallets', 'types'));
     }
 
