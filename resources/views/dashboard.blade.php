@@ -9,8 +9,7 @@
     <div class="row mb-5">
         <div class="col"><small class="text-muted">Name: </small> <b>{{$user->name}}</b></div>
         <div class="col"><small class="text-muted">Email: </small> <b>{{$user->email}}</b></div>
-        <div class="col"><small class="text-muted">Base Currency: </small> <b>??????</b></div>
-        <div class="col"><small class="text-muted">Balance: </small> <b>????????</b></div>
+        <div class="col"><small class="text-muted">Balance: </small> <b>{{$userBalance}} {{$baseCurrencyCode}}</b></div>
     </div>
     <div class="row justify-content-center">
         <a href="{{route('settings')}}">Edit user data</a>

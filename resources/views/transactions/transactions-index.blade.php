@@ -4,6 +4,11 @@
 @endsection
 
 @section('content')
+
+    <div class="row mb-5">
+        <div class="col"><small class="text-muted">Balance: </small> <b>{{$userBalance}} {{$baseCurrencyCode}}</b></div>
+    </div>
+
     <div class="col-12">
         <a href="{{route('transactions.create')}}" class="btn btn-primary">New transaction</a>
     </div>
@@ -51,6 +56,6 @@
                 </tbody>
             </table>
 
-            {{ $transactions->onEachSide(2)->links() }}
+            {{ $transactions->onEachSide(2)->links('vendor.pagination.bootstrap-4') }}
         </div>
 @endsection

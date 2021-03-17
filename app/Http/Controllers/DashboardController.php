@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Facades\Course;
+use App\Facades\Money;
 use App\Models\Wallets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
-use App\Facades\Money;
 
 class DashboardController extends Controller
 {
-    public function index(Money $money)
+    public function index()
     {
-
-
-
-       $money = Money2::hello();
-
-      dd($money->hello());
-
-
-
 
 
         $user = Auth::user();
         $wallets = Wallets::where('user_id', $user->id)->get();
+        $userBalance = Money::overallUserBalance();
+        $baseCurrencyCode = Money::baseCurrencyCode();
 
-        return view('dashboard', compact('user', 'wallets'));
+        return view('dashboard', compact('user', 'wallets', 'userBalance', 'baseCurrencyCode'));
     }
 
 }

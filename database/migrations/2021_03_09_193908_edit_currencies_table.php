@@ -14,7 +14,7 @@ class EditCurrenciesTable extends Migration
     public function up()
     {
         Schema::table('currencies', function (Blueprint $table) {
-            $table->decimal('cource', 3, 2)->default(1)->after('code');
+            $table->decimal('cource', 4, 2)->default(1)->after('code');
         });
     }
 

@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Course;
+use App\Facades\Money;
 use App\Http\Requests\TransactionStoreRequest;
 use App\Http\Requests\TransactionUpdateRequest;
 use App\Models\Transaction;
 use App\Models\Wallets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -23,20 +27,19 @@ class TransactionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // TODO - вывести баланс
-
     public function index()
     {
+
 
         $transactions = Transaction::with('wallet')
             ->where('user_id', Auth::user()->id)
             ->orderBy('id', 'desc')
             ->paginate(2); // здесь 2 элемента на странице просто для простоты тестирования
 
+        $userBalance = Money::overallUserBalance();
+        $baseCurrencyCode = Money::baseCurrencyCode();
 
-
-
-        return view('transactions.transactions-index', compact('transactions'));
+        return view('transactions.transactions-index', compact('transactions', 'userBalance', 'baseCurrencyCode'));
     }
 
     /**
@@ -69,9 +72,21 @@ class TransactionController extends Controller
         $transaction->comment = $request->comment;
         $transaction->transaction_datetime = $request->transaction_datetime;
 
+
+        // TODO - это нужно обернуть в транзацкцию
+        // началоло транзакции
+
+        if ($transaction->type === '+') {
+            Money::plus($transaction->wallet_id, $transaction->summ);
+        } elseif ($transaction->type === '-') {
+            Money::minus($transaction->wallet_id, $transaction->summ);
+        }
+
         $transaction->save();
+        // конец транзакции
 
         return redirect()->route('transactions.index')->with('success', 'Transaction added');
+
 
     }
 
@@ -97,8 +112,6 @@ class TransactionController extends Controller
      */
 
 
-    // TODO - пересчет баланса
-
     public function update(TransactionUpdateRequest $request, Transaction $transaction)
     {
         $transaction->wallet_id = $request->wallet_id;
@@ -107,25 +120,30 @@ class TransactionController extends Controller
         $transaction->comment = $request->comment;
         $transaction->transaction_datetime = $request->transaction_datetime;
 
-        $transaction->save();
+
+        // TODO - обернуть в транзакцию
+        // начало транзакции
+
+        Money::canselBalanceChange($transaction->id);
+        Money::updateBalances($transaction->wallet_id, $transaction->type, $transaction->summ);
+
+        $transaction->update();
+        // конец транзакции
 
         return redirect()->route('transactions.index')->with('success', 'Transaction changed');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Transaction $transaction
-     * @return \Illuminate\Http\Response
-     */
 
-    // TODO - пересчет баланса
+    // TODO - обернуть в транзакцию
     public function destroy($id)
     {
-        $transaction = Transaction::find($id);
-
-        $transaction->delete();
-
+        // начало транзакции
+        DB::transaction(function ($id) {
+            $transaction = Transaction::find($id);
+            Money::canselBalanceChange($id);
+            $transaction->delete();
+        }, 3);
+        // конец транзакци
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted');
     }
 }

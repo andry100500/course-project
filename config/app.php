@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\MoneyManagerServiceProvider::class,
+        App\Providers\CourseManagerServiceProvider::class,
 
     ],
 
@@ -228,7 +229,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Money2' => App\Facades\Money::class,
+        'Money' => App\Facades\Money::class,
+        'Course' => App\Facades\Course::class,
     ],
 
 ];
