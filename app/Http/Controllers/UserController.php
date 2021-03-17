@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserLoginRequest;
+use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-// TODO перенести валидации в реквесты
 
 class UserController extends Controller
 {
@@ -16,20 +17,16 @@ class UserController extends Controller
         return view('user.register');
     }
 
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|confirmed',
-        ]);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password), //   вместо фассада Hash можно использовать хелпер bcrypt($request->password)
 
         ]);
-        // session()->flash('success', 'Successful registration. Last step, you need check base currency.');
+
         Auth::login($user);
 
         return redirect()->route('settings')->with('success', 'Successful registration. Last step, you need check base currency.');
@@ -40,12 +37,9 @@ class UserController extends Controller
         return view('user.login');
     }
 
-    public function login(Request $request)
+    public function login(UserLoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+
         if (Auth::attempt([
             'email' => $request->email,
             'password' => $request->password,
@@ -60,6 +54,7 @@ class UserController extends Controller
         Auth::logout();
         return redirect()->route('public.home');
     }
+
     public function changePasswordForm()
     {
         return view('user.change-password');
@@ -68,14 +63,13 @@ class UserController extends Controller
     public function storeNewPassword(Request $request)
     {
         $user = Auth::user();
+
         if (!Hash::check($request->password, $user->password)) {
             return back()->withErrors([
                 'password' => ['The provided password does not match our records.']
             ]);
         }
-        $request->validate([
-            'new_password' => 'required|confirmed',
-        ]);
+
         $request->session()->passwordConfirmed();
         $user->password = Hash::make($request->new_password);
         $user->update();

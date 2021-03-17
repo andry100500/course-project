@@ -15,7 +15,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-
+        Course::getCourse('USD');
 
         $user = Auth::user();
         $wallets = Wallets::where('user_id', $user->id)->get();

@@ -20,6 +20,7 @@ class MoneyManager
         $this->user = Auth::user();
         $this->wallets = $this->rebuildArray(Wallets::query()->where('user_id', $this->user->id)->get());
         $this->currencies = $this->rebuildArray(Currencies::get());
+
     }
 
     public function rebuildArray($array)
@@ -76,12 +77,16 @@ class MoneyManager
      */
     public function inBaseCurrency($wallet_id, $summ)
     {
-        $baseCurrencyId = $this->user->currency_id;
-        $baseCurrencyCource = $this->currencies[$baseCurrencyId]->cource;
+
+
+        $baseCurrencyCode = $this->baseCurrencyCode();
+        $baseCurrencyCource = Course::getCourse($baseCurrencyCode);
         $walletCurrencyId = $this->wallets[$wallet_id]->currency_id;
         $walletCurrencyCode = $this->currencies[$walletCurrencyId]->code;
         $walletCurrencyCource = Course::getCourse($walletCurrencyCode);
+
         $newSumm = $summ * $walletCurrencyCource;
+
         $rezultSumm = $newSumm / $baseCurrencyCource;
         return $rezultSumm;
     }

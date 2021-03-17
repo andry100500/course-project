@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 // Main page
 Route::get('/', function () {
     return view('public.home');
@@ -36,16 +37,19 @@ Route::middleware('auth')->group(function () {
 
 // Users routes
 Route::middleware('auth')->group(function () {
-    Route::get('logout', [\App\Http\Controllers\UserController::class, 'logout'])->name('logout');
-    Route::post('change-password', [\App\Http\Controllers\UserController::class, 'storeNewPassword'])->name('change.password');
-});
-Route::middleware('guest')->group(function () {
-    Route::get('register', [\App\Http\Controllers\UserController::class, 'create'])->name('register');
-    Route::post('register', [\App\Http\Controllers\UserController::class, 'store']);
-    Route::get('login', [\App\Http\Controllers\UserController::class, 'loginForm'])->name('login');
-    Route::post('login', [\App\Http\Controllers\UserController::class, 'login']);
+//
 });
 
+Route::get('logout', [\App\Http\Controllers\UserController::class, 'logout'])->name('logout');
+Route::post('change-password', [\App\Http\Controllers\UserController::class, 'storeNewPassword'])->name('change.password');
+
+Route::middleware('guest')->group(function () {
+//
+});
+Route::get('register', [\App\Http\Controllers\UserController::class, 'create'])->name('register');
+Route::post('register', [\App\Http\Controllers\UserController::class, 'store']);
+Route::get('login', [\App\Http\Controllers\UserController::class, 'loginForm'])->name('login');
+Route::post('login', [\App\Http\Controllers\UserController::class, 'login']);
 
 Route::fallback(function () {
     abort(404,);

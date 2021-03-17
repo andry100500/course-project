@@ -24,9 +24,22 @@ class TransactionUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'wallet_id' => 'required|integer',
+            'wallet_id' => 'required|numeric',
             'type' => 'required|in:+,-',
             'summ' => 'required|numeric',
         ];
     }
+    public function messages() {
+        return [
+            'wallet_id.required'=>'Выберите кошелек.',
+            'wallet_id.numeric'=>'Что-то пошло не так. Повторите операцию, заполните все поля. Если проблема повторится, свяжитесь с техподдержкой.',
+
+            'type.required'=>'Выберите тип транзакции.',
+            'type.in:+,-'=>'Что-то пошло не так. Повторите операцию, заполните все поля. Если проблема повторится, свяжитесь с техподдержкой.',
+
+            'summ.required'=>'Укажите сумму',
+            'summ.numeric'=>'Что-то пошло не так. Повторите операцию, заполните все поля. Если проблема повторится, свяжитесь с техподдержкой.',
+        ];
+    }
+
 }

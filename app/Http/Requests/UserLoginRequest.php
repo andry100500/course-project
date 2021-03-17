@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class WalletUpdateRequest extends FormRequest
+class UserLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,21 +21,18 @@ class WalletUpdateRequest extends FormRequest
      *
      * @return array
      */
-
-
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:50',
+            'email' => 'required|email',
+            'password' => 'required',
         ];
     }
-
     public function messages() {
         return [
-            'name.required' => 'Укажите имя',
-            'name.min:2' => 'Имя должно содержать от 2 до 50 символов',
-            'name.max:255' => 'Имя должно содержать от 2 до 50 символов',
+            'email.required' =>'Заполните поле email',
+            'email.email' =>'Значение в поле email не соответствует формату адреса электронной почты.',
+            'password.required' => 'Укажите пароль',
         ];
     }
-
 }

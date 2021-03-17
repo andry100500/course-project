@@ -28,7 +28,7 @@
                         <h4 class="my-0 fw-normal">{{$wallet->name}}</h4>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title pricing-card-title"><small class="text-muted">Balance: </small> $0</h1>
+                        <h1 class="card-title pricing-card-title"><small class="text-muted">Balance: </small>{{$wallet->balance}} {{$wallet->currency->code}}</h1>
                     </div>
                 </div>
             </div>

@@ -118,17 +118,17 @@
 
                                 <div class="form-group">
                                     <label for="password">Old password:</label>
-                                    <input type="text" class="form-control" id="password" name="password">
+                                    <input type="password" class="form-control" id="password" name="password">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="new_password">New password:</label>
-                                    <input type="text" class="form-control" id="new_password" name="new_password">
+                                    <input type="password" class="form-control" id="new_password" name="new_password">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="new_password_confirmation">New password confirm:</label>
-                                    <input type="text" class="form-control" id="new_password_confirmation"
+                                    <input type="password" class="form-control" id="new_password_confirmation"
                                            name="new_password_confirmation">
                                 </div>
                             </div>

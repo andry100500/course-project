@@ -140,6 +140,7 @@ class TransactionController extends Controller
     {
         // начало транзакции
         DB::transaction(function ($id) {
+
             $transaction = Transaction::find($id);
             Money::canselBalanceChange($id);
             $transaction->delete();

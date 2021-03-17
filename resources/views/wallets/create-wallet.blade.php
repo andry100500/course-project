@@ -29,11 +29,6 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="balance">Start balance:</label>
-                        <input type="text" name="balance" class="form-control" id="balance"
-                               placeholder="Enter start balance">
-                    </div>
 
                 </div>
                 <!-- /.card-body -->

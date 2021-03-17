@@ -28,4 +28,12 @@ class UpdateBaseRequest extends FormRequest
             'currency_id'=>'required|numeric'
         ];
     }
+
+    public function messages() {
+        return [
+            'name.required' => 'Укажите имя.',
+            'currency_id.required'=>'Вы не выбрали валюту.',
+            'currency_id.numeric' =>'Что-то пошло нет так, попробуйте повторить операцию. Если проблема повторится, свяжитесь с техподдержкой.',
+        ];
+    }
 }

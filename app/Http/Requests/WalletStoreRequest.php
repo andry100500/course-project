@@ -27,7 +27,17 @@ class WalletStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:255',
-            'currency_id' => 'required'
+            'currency_id' => 'required|numeric'
+        ];
+    }
+    public function messages() {
+        return [
+            'name.required' => 'Укажите имя.',
+            'name.min:2' => 'Имя должно содержать от 2 до 50 символов.',
+            'name.max:255' => 'Имя должно содержать от 2 до 50 символов.',
+            'currency_id.required' => 'Выберите валюту.',
+            'currency_id.numeric' => 'Что-то пошло не так. Повторите операцию, заполните все поля. Если проблема повторится, свяжитесь с техподдержкой.',
+
         ];
     }
 }
