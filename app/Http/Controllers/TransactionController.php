@@ -72,21 +72,17 @@ class TransactionController extends Controller
         $transaction->comment = $request->comment;
         $transaction->transaction_datetime = $request->transaction_datetime;
 
+        DB::transaction(function () use($transaction){
+            if ($transaction->type === '+') {
+                Money::plus($transaction->wallet_id, $transaction->summ);
+            } elseif ($transaction->type === '-') {
+                Money::minus($transaction->wallet_id, $transaction->summ);
+            }
 
-        // TODO - это нужно обернуть в транзацкцию
-        // началоло транзакции
-
-        if ($transaction->type === '+') {
-            Money::plus($transaction->wallet_id, $transaction->summ);
-        } elseif ($transaction->type === '-') {
-            Money::minus($transaction->wallet_id, $transaction->summ);
-        }
-
-        $transaction->save();
-        // конец транзакции
+            $transaction->save();
+        });
 
         return redirect()->route('transactions.index')->with('success', 'Transaction added');
-
 
     }
 
@@ -121,31 +117,26 @@ class TransactionController extends Controller
         $transaction->comment = $request->comment;
         $transaction->transaction_datetime = $request->transaction_datetime;
 
+        DB::transaction(function () use($transaction){
+            Money::canselBalanceChange($transaction->id);
+            Money::updateBalances($transaction->wallet_id, $transaction->type, $transaction->summ);
 
-        // TODO - обернуть в транзакцию
-        // начало транзакции
-
-        Money::canselBalanceChange($transaction->id);
-        Money::updateBalances($transaction->wallet_id, $transaction->type, $transaction->summ);
-
-        $transaction->update();
-        // конец транзакции
+            $transaction->update();
+        });
 
         return redirect()->route('transactions.index')->with('success', 'Transaction changed');
     }
 
 
-    // TODO - обернуть в транзакцию
     public function destroy($id)
     {
-        // начало транзакции
-        DB::transaction(function ($id) {
-
+        DB::transaction(function () use ($id) {
             $transaction = Transaction::find($id);
             Money::canselBalanceChange($id);
             $transaction->delete();
         }, 3);
-        // конец транзакци
+
         return redirect()->route('transactions.index')->with('success', 'Transaction deleted');
     }
+
 }

@@ -8,6 +8,7 @@ use App\Models\Currencies;
 use App\Models\Transaction;
 use App\Models\Wallets;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MoneyManager
 {
@@ -71,7 +72,6 @@ class MoneyManager
     }
 
 
-
     /**
      * The method returns the balance or summ in base currency
      */
@@ -121,8 +121,8 @@ class MoneyManager
         } elseif ($transaction->type === '-') {
             $this->plus($transaction->wallet_id, $transaction->summ);
         }
-    }
 
+    }
 
 
 }

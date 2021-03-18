@@ -27,6 +27,7 @@ class TransactionStoreRequest extends FormRequest
             'wallet_id' => 'required|numeric',
             'type' => 'required|in:+,-',
             'summ' => 'required|numeric',
+
         ];
     }
     public function messages() {

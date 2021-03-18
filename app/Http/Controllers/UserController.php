@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNewPasswordRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
@@ -60,19 +61,17 @@ class UserController extends Controller
         return view('user.change-password');
     }
 
-    public function storeNewPassword(Request $request)
+    public function storeNewPassword(StoreNewPasswordRequest $request)
     {
         $user = Auth::user();
 
         if (!Hash::check($request->password, $user->password)) {
-            return back()->withErrors([
-                'password' => ['The provided password does not match our records.']
-            ]);
+            return back()->with('error', 'Вы указали не правильный пароль.');
         }
 
         $request->session()->passwordConfirmed();
         $user->password = Hash::make($request->new_password);
         $user->update();
-        return redirect()->route('dashboard');
+        return redirect()->route('settings')->with('success', 'Вы изменили пароль.');
     }
 }

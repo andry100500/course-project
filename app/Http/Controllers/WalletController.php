@@ -20,10 +20,6 @@ class WalletController extends Controller
         return view('wallets.create-wallet', compact('currencies'));
     }
 
-
-    // TODO - решить, что делать с транзакциями при указании баланса - или убрать добавление баланса или реализовать транзакции
-    // если удалять, то в шаблоне криейт, в миграции и в БД
-
     public function store(WalletStoreRequest $request)
     {
         $wallet = new Wallets();

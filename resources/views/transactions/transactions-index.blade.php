@@ -40,13 +40,13 @@
                             @endif
                             {{$transaction->summ}}</td>
                         <td>{{$transaction->comment}}</td>
-                        <td>
-                            <a href="{{route('transactions.edit',[$transaction->id])}}">Edit </a>
+                        <td class="d-flex">
+                            <a class="btn btn-primary mr-2" href="{{route('transactions.edit',[$transaction->id])}}">Edit </a>
 
                             <form action="{{route('transactions.destroy',[$transaction->id])}}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-primary" type="submit">Delete</button>
+                                <button class="btn btn-danger" type="submit">Delete</button>
                             </form>
                         </td>
                     </tr>
